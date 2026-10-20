@@ -1,0 +1,27 @@
+<div class="game">
+  <h1>Anagram Challenge</h1>
+  <p>Unscramble the letters to find the word!</p>
+
+  <div id="scrambledWord" class="scrambled">
+    Loading...
+  </div>
+
+  <p id="score">Score: 0</p>
+
+  <form id="answerForm">
+    <input
+      id="answerInput"
+      type="text"
+      placeholder="Type your answer"
+      autocomplete="off"
+      required
+    />
+    <button type="submit">Check Answer</button>
+  </form>
+
+  <p id="feedback" aria-live="polite"></p>
+
+  <button id="nextButton" type="button">
+    Next Word →
+  </button>
+</div>
