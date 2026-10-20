@@ -1,0 +1,88 @@
+
+const words = [
+  "APPLE",
+  "BRAIN",
+  "TIGER",
+  "PLANT",
+  "SMILE",
+  "WATER",
+  "HOUSE",
+  "MUSIC"
+];
+
+let currentWord = "";
+let score = 0;
+let answered = false;
+
+const scrambledWord = document.getElementById("scrambledWord");
+const answerInput = document.getElementById("answerInput");
+const answerForm = document.getElementById("answerForm");
+const feedback = document.getElementById("feedback");
+const scoreDisplay = document.getElementById("score");
+const nextButton = document.getElementById("nextButton");
+
+// Mix up the letters in a word
+function scramble(word) {
+  const letters = word.split("");
+
+  // Shuffle the letters randomly
+  for (let i = letters.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+
+    [letters[i], letters[j]] = [letters[j], letters[i]];
+  }
+
+  // Avoid showing the original word
+  if (letters.join("") === word && word.length > 1) {
+    return scramble(word);
+  }
+
+  return letters.join("");
+}
+
+// Start a new puzzle
+function newPuzzle() {
+  const randomIndex = Math.floor(
+    Math.random() * words.length
+  );
+
+  currentWord = words[randomIndex];
+
+  scrambledWord.textContent = scramble(currentWord);
+
+  answerInput.value = "";
+  feedback.textContent = "";
+  answered = false;
+  answerInput.disabled = false;
+
+  answerInput.focus();
+}
+
+// Check the player's guess
+answerForm.addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  if (answered) return;
+
+  const guess = answerInput.value.trim().toUpperCase();
+
+  if (guess === currentWord) {
+    feedback.textContent = "🎉 Correct! Great job!";
+    feedback.style.color = "green";
+
+    score++;
+    scoreDisplay.textContent = "Score: " + score;
+
+    answered = true;
+    answerInput.disabled = true;
+  } else {
+    feedback.textContent = "❌ Not quite. Try again!";
+    feedback.style.color = "crimson";
+  }
+});
+
+// Load another word
+nextButton.addEventListener("click", newPuzzle);
+
+// Start the game
+newPuzzle();
